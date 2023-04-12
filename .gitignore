@@ -10,9 +10,8 @@ Thumbs.db
 *.bak
 *.swp
 *.log
-build/*
-coverage/*
-node_modules/*
-package-lock.json
-test.js
-test.ts
+/build/*
+/coverage/*
+/node_modules/*
+/package-lock.json
+/test.ts
