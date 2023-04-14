@@ -11,7 +11,7 @@ Install the dependency.
 npm install express-idempotency-cache --save
 ```
 
-Integrate the middleware in your Express initialization.
+Integrate the middleware in your Express initialization
 
 ```javascript
 const idempotency = require('express-idempotency-cache');
@@ -29,15 +29,19 @@ const config = {
 app.post('*', idempotency(config));
 ```
 
+Add idempotency config to your routes
 ```javascript
 const idempotency = require('express-idempotency-cache');
 
 app.post('/some-route', idempotency(1440), function(request, response) {
 
-    // Check if there was a hit!
-    if (idempotency.isHit(request)) {
-        return idempotency.response(request)
-    }
+    // Do your code here...
+
+    // Save response before send
+    idempotency.save(yourResponseHere)
+
+    // Send response
+    response.json(yourResponseHere)
 });
 ```
 
