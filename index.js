@@ -3,7 +3,7 @@
 module.exports = (input) =>
 {
     if (input) {
-        if (Object.is(input)) {
+        if (typeof input === 'object') {
             console.log('CONFIG', input)
         } else {
             console.log('TTL', input)

@@ -3,7 +3,9 @@
 const app         = require('express')()
 const idempotency = require('./index')
 
-// app.use(idempotency({}))
+app.use(idempotency({
+    foo: 'bar'
+}))
 
 // app.get('', (request, response) =>
 // {
