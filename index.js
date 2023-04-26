@@ -16,6 +16,7 @@ function intercept(ttl)
 
         console.log({ body, ttl });
 
+        response.header('idempotency-id', '123');
         body.message = 'intercepted: ' + body.message;
 
         return body;
