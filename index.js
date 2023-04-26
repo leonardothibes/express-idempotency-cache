@@ -1,19 +1,32 @@
 'use strict';
 
-module.exports = (input) =>
+const mung = require('express-mung');
+
+global.idempotencyConfig = {
+    adapter   : 'adapter',
+    hostname  : 'hostname',
+    defaultTtl: 'defaultTtl',
+};
+
+function intercept(ttl)
 {
-    if (input) {
-        if (typeof input === 'object') {
-            console.log('CONFIG', input)
-        } else {
-            console.log('TTL', input)
-        }
-    }
-
-    return (request, response, next) =>
+    return (body, request, response) =>
     {
-        console.log('AKI');
+        ttl = ttl || global.idempotencyConfig.defaultTtl;
 
-        next()
+        console.log({ body, ttl });
+
+        body.message = 'nananinanao';
+
+        return body;
+    };
+}
+
+exports.idempotency = ttl => mung.json(intercept(ttl));
+
+exports.idempotencyConfig = (input) =>
+{
+    if (input && typeof input === 'object') {
+        console.log('CONFIG', input)
     }
 }

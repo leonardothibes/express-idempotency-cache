@@ -1,11 +1,13 @@
 'use strict'
 
 const app         = require('express')()
-const idempotency = require('./index')
+const { idempotency, idempotencyConfig } = require('./index')
 
-app.use(idempotency({
-    foo: 'bar'
-}))
+idempotencyConfig({
+    adapter   : 'redis',
+    hostname  : 'localhost',
+    defaultTtl: 8400,
+});
 
 // app.get('', (request, response) =>
 // {
