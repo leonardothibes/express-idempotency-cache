@@ -1,6 +1,6 @@
 'use strict'
 
-const app         = require('express')()
+const app = require('express')()
 const { idempotency, idempotencyConfig } = require('./index')
 
 idempotencyConfig({
