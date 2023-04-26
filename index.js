@@ -3,16 +3,16 @@
 const mung = require('express-mung');
 
 global.idempotencyConfig = {
-    adapter   : 'adapter',
-    hostname  : 'hostname',
-    defaultTtl: 86400,
+    adapter : 'adapter',
+    hostname: 'hostname',
+    ttl     : 86400,
 };
 
 function intercept(ttl)
 {
     return (body, request, response) =>
     {
-        ttl = ttl || global.idempotencyConfig.defaultTtl;
+        ttl = ttl || global.idempotencyConfig.ttl;
 
         console.log({ body, ttl });
 
