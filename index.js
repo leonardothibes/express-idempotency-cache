@@ -5,7 +5,7 @@ const mung = require('express-mung');
 global.idempotencyConfig = {
     adapter   : 'adapter',
     hostname  : 'hostname',
-    defaultTtl: 'defaultTtl',
+    defaultTtl: 86400,
 };
 
 function intercept(ttl)
@@ -16,7 +16,7 @@ function intercept(ttl)
 
         console.log({ body, ttl });
 
-        body.message = 'nananinanao';
+        body.message = 'intercepted: ' + body.message;
 
         return body;
     };
