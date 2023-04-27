@@ -22,7 +22,7 @@ app.get('/hello', (request, response) =>
     })
 })
 
-app.get('/hello1', idempotency(1), (request, response) =>
+app.get('/hello1', idempotency(10), (request, response) =>
 {
     response.json({
         status : 200,
@@ -30,7 +30,7 @@ app.get('/hello1', idempotency(1), (request, response) =>
     })
 })
 
-app.get('/hello2', idempotency(2), (request, response) =>
+app.get('/hello2', idempotency(20), (request, response) =>
 {
     response.json({
         status : 200,
