@@ -11,7 +11,9 @@ module.exports = class extends Base
     constructor(config)
     {
         super(config)
-        this.cache = new Cache()
+
+        this.cache     = new Cache()
+        this.connected = true
     }
 
     /**

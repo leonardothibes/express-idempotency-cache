@@ -5,9 +5,11 @@ const app         = express()
 const idempotency = require('./index')
 
 idempotency({
-    adapter   : 'redis',
-    hostname  : 'localhost',
-    defaultTtl: 60,
+    ttl    : 60,
+    adapter: 'redis',
+    redis  : {
+        hostname: 'localhost',
+    },
 });
 
 app.use(express.json())
@@ -20,7 +22,7 @@ app.get('/hello', (request, response) =>
     })
 })
 
-app.get('/hello1', idempotency(1), (request, response) =>
+app.get('/hello1', idempotency(10), (request, response) =>
 {
     response.json({
         status : 200,
@@ -28,7 +30,7 @@ app.get('/hello1', idempotency(1), (request, response) =>
     })
 })
 
-app.get('/hello2', idempotency(2), (request, response) =>
+app.get('/hello2', idempotency(20), (request, response) =>
 {
     response.json({
         status : 200,
@@ -36,11 +38,12 @@ app.get('/hello2', idempotency(2), (request, response) =>
     })
 })
 
-app.post('/customer', idempotency(10), function(request, response)
+app.post('/customer', idempotency(60), function(request, response)
 {
     response.json({
-        status : 200,
-        message: 'Sucesso total!',
+        status  : 200,
+        message : 'Sucesso total!',
+        datetime: new Date()
     })
 })
 

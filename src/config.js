@@ -1,24 +1,29 @@
 'use strict'
 
-global.idempotencyConfig = {
+const defaultConfig = {
     enabled: true,
     adapter: 'memory',
     ttl    : 86400,
     redis  : {
         hostname: 'localhost',
-        password: null,
         port    : 6379,
     },
 };
 
-exports.apply = config =>
+exports.apply = (config) =>
 {
-    if (!config || typeof input !== 'object') return
+    if (!config || typeof config !== 'object') return
 
-    const keys = Object.keys(config)
+    const keys = Object.keys(defaultConfig)
     if (keys.length === 0) return
 
+    if (!global.idempotencyConfig) {
+        global.idempotencyConfig = config
+    }
+
     for (const key of keys) {
-        global.idempotencyConfig[key] = config[key]
+        if (!global.idempotencyConfig[key]) {
+            global.idempotencyConfig[key] = defaultConfig[key]
+        }
     }
 }
