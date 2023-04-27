@@ -1,33 +1,35 @@
-'use strict';
+'use strict'
 
 const mung        = require('express-mung')
 const config      = require('./src/config')
-const idempotency = require('./src/idempotency')
+const Idempotency = require('./src/idempotency')
 
 function intercept(input)
 {
+    // Cache adapter
+    const idempotency = Idempotency.getInstance(global.idempotencyConfig)
+
     // Config
     if (input && typeof input === 'object') {
-        config.apply(input);
-        return (req, res, nxt) => nxt();
+        config.apply(input)
+        return (req, res, nxt) => nxt()
     }
     // Config
 
-    // Cache adapter
-    const adapter = idempotency.getInstance(global.idempotencyConfig)
-
     // Middleware
-    return (body, request, response) =>
+    return async (body, request, response) =>
     {
-        const ttl = input || global.idempotencyConfig.ttl;
+        const key = idempotency.key(request)
+        response.header('idempotency-key', key)
 
-        console.log({ body, ttl, adapter: adapter.adapterName });
+        const cached = await idempotency.adapter.get(key)
+        if (cached) return cached
 
-        response.header('idempotency-id', '123');
-        body.message = 'intercepted: ' + body.message;
+        const ttl = input || global.idempotencyConfig.ttl
+        await idempotency.adapter.set(key, body, ttl)
 
-        return body;
-    };
+        return body
+    }
     // Middleware
 }
 
