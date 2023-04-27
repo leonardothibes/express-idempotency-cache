@@ -1,21 +1,13 @@
 'use strict'
 
-const app = require('express')()
-const { idempotency, idempotencyConfig } = require('./index')
+const app         = require('express')()
+const idempotency = require('./index')
 
-idempotencyConfig({
+idempotency({
     adapter   : 'redis',
     hostname  : 'localhost',
     defaultTtl: 8400,
 });
-
-app.get('', idempotency(), (request, response) =>
-{
-    response.json({
-        status : 200,
-        message: 'Hello World',
-    })
-})
 
 app.get('/hello', (request, response) =>
 {
@@ -25,7 +17,23 @@ app.get('/hello', (request, response) =>
     })
 })
 
-app.post('/customer', idempotency(1440), function(request, response)
+app.get('/hello1', idempotency(1), (request, response) =>
+{
+    response.json({
+        status : 200,
+        message: 'Hello World',
+    })
+})
+
+app.get('/hello2', idempotency(2), (request, response) =>
+{
+    response.json({
+        status : 200,
+        message: 'Hello World',
+    })
+})
+
+app.post('/customer', idempotency(), function(request, response)
 {
     response.json({
         status : 200,
