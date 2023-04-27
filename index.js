@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const mung        = require('express-mung')
 const config      = require('./src/config')
@@ -8,8 +8,8 @@ function intercept(input)
 {
     // Config
     if (input && typeof input === 'object') {
-        config.apply(input);
-        return (req, res, nxt) => nxt();
+        config.apply(input)
+        return (req, res, nxt) => nxt()
     }
     // Config
 
@@ -28,7 +28,7 @@ function intercept(input)
         const ttl = input || global.idempotencyConfig.ttl
         await idempotency.adapter.set(key, body, ttl)
 
-        return body;
+        return body
     }
     // Middleware
 }
