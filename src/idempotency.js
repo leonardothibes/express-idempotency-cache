@@ -42,10 +42,10 @@ class Idempotency
     _getAdapter()
     {
         try {
-            const driver = require(`./adapter/${this.adapterName}`)
-            return new driver(this.config)
+            const adapter = require(`./adapter/${this.adapterName}`)
+            return new adapter(this.config)
         } catch (e) {
-            const message = `Cannot instantiate idempotency driver: ${this.adapterName}`
+            const message = `Cannot instantiate idempotency adapter: ${this.adapterName}`
             throw Error(message)
         }
     }
