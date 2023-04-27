@@ -13,9 +13,10 @@ function intercept(input)
     }
     // Config
 
-    // Middleware
+    // Cache adapter
     const adapter = idempotency.getInstance(global.idempotencyConfig)
 
+    // Middleware
     return (body, request, response) =>
     {
         const ttl = input || global.idempotencyConfig.ttl;
@@ -27,6 +28,7 @@ function intercept(input)
 
         return body;
     };
+    // Middleware
 }
 
 module.exports = (input) => mung.json(intercept(input))
