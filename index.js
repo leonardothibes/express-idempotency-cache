@@ -1,32 +1,32 @@
 'use strict';
 
-const mung = require('express-mung');
+const mung        = require('express-mung')
+const config      = require('./src/config')
+const idempotency = require('./src/idempotency')
 
-global.idempotencyConfig = {
-    adapter : 'adapter',
-    hostname: 'hostname',
-    ttl     : 86400,
-};
-
-function intercept(ttl)
+function intercept(input)
 {
+    // Config
+    if (input && typeof input === 'object') {
+        config.apply(input);
+        return (req, res, nxt) => nxt();
+    }
+    // Config
+
+    // Middleware
+    const adapter = idempotency.getInstance(global.idempotencyConfig)
+
     return (body, request, response) =>
     {
-        ttl = ttl || global.idempotencyConfig.ttl;
+        const ttl = input || global.idempotencyConfig.ttl;
 
-        console.log({ body, ttl });
+        console.log({ body, ttl, adapter: adapter.adapterName });
 
+        response.header('idempotency-id', '123');
         body.message = 'intercepted: ' + body.message;
 
         return body;
     };
 }
 
-exports.idempotency = ttl => mung.json(intercept(ttl));
-
-exports.idempotencyConfig = (input) =>
-{
-    if (input && typeof input === 'object') {
-        console.log('CONFIG', input)
-    }
-}
+module.exports = (input) => mung.json(intercept(input))
