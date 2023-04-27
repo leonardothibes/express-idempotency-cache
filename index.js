@@ -2,7 +2,7 @@
 
 const mung        = require('express-mung')
 const config      = require('./src/config')
-const idempotency = require('./src/idempotency')
+const Idempotency = require('./src/idempotency')
 
 function intercept(input)
 {
@@ -14,18 +14,19 @@ function intercept(input)
     // Config
 
     // Cache adapter
-    const adapter = idempotency.getInstance(global.idempotencyConfig)
+    const idempotency = Idempotency.getInstance(global.idempotencyConfig)
 
     // Middleware
-    return (body, request, response) =>
+    return async (body, request, response) =>
     {
+        const key = idempotency.key(request)
+        response.header('idempotency-key', key)
+
+        const cached = await idempotency.adapter.get(key)
+        if (cached) return cached
+
         const ttl = input || global.idempotencyConfig.ttl
-        const key = adapter.key(request)
-
-        console.log({ body, ttl, adapter: adapter.adapterName });
-
-        response.header('idempotency-key', key);
-        body.message = 'intercepted: ' + body.message;
+        await idempotency.adapter.set(key, body, ttl)
 
         return body;
     };

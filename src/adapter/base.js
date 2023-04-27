@@ -23,11 +23,12 @@ module.exports = class
      * Set the cache value identified by a key.
      *
      * @param {String}        key
-     * @param {String|Object} value
+     * @param {String|Object} val
+     * @param {Number}        ttl
      *
      * @return {Promise<any>}
      */
-    async set(key)
+    async set(key, val, ttl)
     {
         return null
     }
