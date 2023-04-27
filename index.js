@@ -17,18 +17,22 @@ function intercept(input)
     const idempotency = Idempotency.getInstance(global.idempotencyConfig)
 
     // Middleware
-    return async (body, request, response) =>
+    return (body, request, response) =>
     {
-        const key = idempotency.key(request)
-        response.header('idempotency-key', key)
+        (async () =>
+        {
+            const key = idempotency.key(request)
+            response.header('idempotency-key', key)
 
-        const cached = await idempotency.adapter.get(key)
-        if (cached) return cached
+            const cached = await idempotency.adapter.get(key)
+            if (cached) return cached
 
-        const ttl = input || global.idempotencyConfig.ttl
-        await idempotency.adapter.set(key, body, ttl)
+            const ttl = input || global.idempotencyConfig.ttl
+            await idempotency.adapter.set(key, body, ttl)
 
-        return body
+            response.body = body
+        })()
+
     }
     // Middleware
 }
