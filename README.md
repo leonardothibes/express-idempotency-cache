@@ -45,6 +45,12 @@ app.post('/some-route', idempotency(1440), function(request, response) {
 });
 ```
 
+References
+----------
+
+ * https://www.npmjs.com/package/ttl-cache
+ * https://www.npmjs.com/package/express-mung
+
 MIT License
 -----------
 
