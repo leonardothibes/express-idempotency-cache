@@ -13,12 +13,12 @@ class Idempotency
     }
 
     /**
-     * @param {String} adapterName
+     * @param {Object} config
      */
-    static getInstance(adapterName)
+    static getInstance(config)
     {
         if (!this.instance) {
-            this.instance = new Idempotency(adapterName)
+            this.instance = new Idempotency(config)
         }
 
         return this.instance
@@ -27,7 +27,7 @@ class Idempotency
     /**
      * Calculate idempotency id from request.
      */
-    getId(request)
+    getKey(request)
     {
         return 'caculatedKeyFromRequest'
     }
