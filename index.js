@@ -29,7 +29,7 @@ function intercept(input)
         await idempotency.adapter.set(key, body, ttl)
 
         return body;
-    };
+    }
     // Middleware
 }
 
