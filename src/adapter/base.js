@@ -2,6 +2,9 @@
 
 module.exports = class
 {
+    /**
+     * @param {Object} config
+     */
     constructor(config)
     {
         this.config = config
