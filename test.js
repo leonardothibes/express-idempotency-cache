@@ -36,7 +36,7 @@ app.get('/hello2', idempotency(2), (request, response) =>
     })
 })
 
-app.post('/customer', idempotency(), function(request, response)
+app.post('/customer', idempotency(10), function(request, response)
 {
     response.json({
         status : 200,
