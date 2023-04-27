@@ -5,9 +5,11 @@ const app         = express()
 const idempotency = require('./index')
 
 idempotency({
-    adapter   : 'redis',
-    hostname  : 'localhost',
-    defaultTtl: 60,
+    ttl    : 60,
+    adapter: 'redis',
+    redis  : {
+        hostname: 'localhost',
+    },
 });
 
 app.use(express.json())
