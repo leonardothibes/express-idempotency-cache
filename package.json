@@ -25,6 +25,9 @@
       "desc": "Abre no Chrome o relatório de coverage"
     },
     "clean": {
+      "desc": "Apaga arquivos de build e testes"
+    },
+    "reset": {
       "desc": "Remove as dependências externas"
     },
     "publish": {
@@ -40,6 +43,7 @@
     "express-mung": "^0.5.1"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.1",
     "jest": "^29.5.0",
     "npm-script-help": "^1.0.0"
   }
