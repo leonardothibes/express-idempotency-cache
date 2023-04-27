@@ -4,7 +4,7 @@ module.exports = class
 {
     constructor(config)
     {
-        console.log(config);
+        this.config = config
     }
 
     /**
