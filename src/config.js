@@ -6,7 +6,6 @@ const defaultConfig = {
     ttl    : 86400,
     redis  : {
         hostname: 'localhost',
-        password: null,
         port    : 6379,
     },
 };
