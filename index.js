@@ -6,15 +6,15 @@ const Idempotency = require('./src/idempotency')
 
 function intercept(input)
 {
-    // Cache adapter
-    const idempotency = Idempotency.getInstance(global.idempotencyConfig)
-
     // Config
     if (input && typeof input === 'object') {
         config.apply(input)
         return (req, res, nxt) => nxt()
     }
     // Config
+
+    // Cache adapter
+    const idempotency = Idempotency.getInstance(global.idempotencyConfig)
 
     // Middleware
     return async (body, request, response) =>
