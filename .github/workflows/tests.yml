@@ -26,5 +26,5 @@ jobs:
           uses: actions/checkout@v2
         - name: install modules
           run: npm install
-        - name: test application
+        - name: test module
           run: npm run test:ci
