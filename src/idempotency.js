@@ -2,14 +2,15 @@
 
 class Idempotency
 {
+    get defaultConfig() { return { adapter: 'memory' } }
+
     /**
      * @param {Object} config
      */
     constructor(config)
     {
-        this.config      = config
-        this.adapterName = String(config.adapter).trim().toLowerCase()
-        this.adapter     = this.getAdapter(this.adapterName)
+        this.config  = config || this.defaultConfig
+        this.adapter = this._getAdapter()
     }
 
     /**
@@ -32,14 +33,16 @@ class Idempotency
         return 'caculatedKeyFromRequest'
     }
 
-    getAdapter(adapterName)
+    _getAdapter()
     {
         try {
-            const driver  = require(`./adapter/${adapterName}`)
+            const name   = String(this.config.adapter).trim().toLowerCase()
+            const driver = require(`./adapter/${name}`)
+
             return new driver(this.config)
         } catch (e) {
             const message = `Cannot instantiate idempotency driver: ${adapterName}`
-            throw new Error(message)
+            throw Error(message)
         }
     }
 }

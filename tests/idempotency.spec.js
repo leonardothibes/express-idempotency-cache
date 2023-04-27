@@ -7,7 +7,7 @@ describe('idempotency', () =>
     it('getId(request)', () =>
     {
         const config   = { adapter: 'memory' }
-        const instance = idempotency.getInstance(config)
+        const instance = idempotency.getInstance()
 
         const request = {}
         const key = instance.getKey(request)
