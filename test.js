@@ -38,11 +38,12 @@ app.get('/hello2', idempotency(20), (request, response) =>
     })
 })
 
-app.post('/customer', idempotency(10), function(request, response)
+app.post('/customer', idempotency(60), function(request, response)
 {
     response.json({
-        status : 200,
-        message: 'Sucesso total!',
+        status  : 200,
+        message : 'Sucesso total!',
+        datetime: new Date()
     })
 })
 
