@@ -17,8 +17,6 @@ class Idempotency
      */
     static getInstance(adapterName)
     {
-        // return this.instance || new Idempotency(adapterName)
-
         if (!this.instance) {
             this.instance = new Idempotency(adapterName)
         }
