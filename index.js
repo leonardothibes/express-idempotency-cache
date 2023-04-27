@@ -25,14 +25,13 @@ function intercept(input)
             response.header('idempotency-key', key)
 
             const cached = await idempotency.adapter.get(key)
-            if (cached) return cached
+            if (cached) return response.body = cached
 
             const ttl = input || global.idempotencyConfig.ttl
             await idempotency.adapter.set(key, body, ttl)
 
             response.body = body
         })()
-
     }
     // Middleware
 }
