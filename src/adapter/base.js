@@ -29,10 +29,10 @@ module.exports = class
      * @param {String|Object} val
      * @param {Number}        ttl
      *
-     * @return {Promise<any>}
+     * @return {Promise<void>}
      */
     async set(key, val, ttl)
     {
-        return null
+
     }
 }
