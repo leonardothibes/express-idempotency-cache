@@ -19,11 +19,12 @@ function intercept(input)
     // Middleware
     return (body, request, response) =>
     {
-        const ttl = input || global.idempotencyConfig.ttl;
+        const ttl = input || global.idempotencyConfig.ttl
+        const key = adapter.key(request)
 
         console.log({ body, ttl, adapter: adapter.adapterName });
 
-        response.header('idempotency-id', '123');
+        response.header('idempotency-key', key);
         body.message = 'intercepted: ' + body.message;
 
         return body;

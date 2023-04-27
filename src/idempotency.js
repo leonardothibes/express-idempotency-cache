@@ -1,5 +1,7 @@
 'use strict'
 
+const md5 = require('md5')
+
 class Idempotency
 {
     get defaultConfig() { return { adapter: 'memory', ttl: 86400 } }
@@ -31,7 +33,10 @@ class Idempotency
      */
     key(request)
     {
-        return 'caculatedKeyFromRequest'
+        const methods = ['POST', 'PUT']
+        const body    = methods.includes(request.method) ? JSON.stringify(request.body) : '{}'
+
+        return md5(`${request.url}:${body}`)
     }
 
     _getAdapter()
