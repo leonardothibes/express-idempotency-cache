@@ -1,13 +1,16 @@
 'use strict'
 
-const app         = require('express')()
+const express     = require('express')
+const app         = express()
 const idempotency = require('./index')
 
 idempotency({
     adapter   : 'redis',
     hostname  : 'localhost',
-    defaultTtl: 8400,
+    defaultTtl: 60,
 });
+
+app.use(express.json())
 
 app.get('/hello', (request, response) =>
 {
@@ -33,7 +36,7 @@ app.get('/hello2', idempotency(2), (request, response) =>
     })
 })
 
-app.post('/customer', idempotency(), function(request, response)
+app.post('/customer', idempotency(10), function(request, response)
 {
     response.json({
         status : 200,

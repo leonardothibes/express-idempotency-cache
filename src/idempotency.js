@@ -1,15 +1,19 @@
 'use strict'
 
+const md5 = require('md5')
+
 class Idempotency
 {
+    get defaultConfig() { return { adapter: 'memory', ttl: 86400 } }
+
     /**
      * @param {Object} config
      */
     constructor(config)
     {
-        this.config      = config
-        this.adapterName = String(config.adapter).trim().toLowerCase()
-        this.adapter     = this.getAdapter(this.adapterName)
+        this.config      = config || this.defaultConfig
+        this.adapterName = String(this.config.adapter).trim().toLowerCase()
+        this.adapter     = this._getAdapter()
     }
 
     /**
@@ -27,19 +31,22 @@ class Idempotency
     /**
      * Calculate idempotency id from request.
      */
-    getKey(request)
+    key(request)
     {
-        return 'caculatedKeyFromRequest'
+        const methods = ['POST', 'PUT']
+        const body    = methods.includes(request.method) ? JSON.stringify(request.body) : '{}'
+
+        return md5(`${request.url}:${body}`)
     }
 
-    getAdapter(adapterName)
+    _getAdapter()
     {
         try {
-            const driver  = require(`./adapter/${adapterName}`)
-            return new driver(this.config)
+            const adapter = require(`./adapter/${this.adapterName}`)
+            return new adapter(this.config)
         } catch (e) {
-            const message = `Cannot instantiate idempotency driver: ${adapterName}`
-            throw new Error(message)
+            const message = `Cannot instantiate idempotency adapter: ${this.adapterName}`
+            throw Error(message)
         }
     }
 }
