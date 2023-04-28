@@ -4,33 +4,62 @@ const mung        = require('express-mung')
 const config      = require('./src/config')
 const Idempotency = require('./src/idempotency')
 
-function intercept(input)
+/**
+ * Init the idempotency configuration into Express.
+ *
+ * @param {Object} input Config params
+ *
+ * @return {Function}
+ */
+exports.init = (input) =>
 {
-    // Cache adapter
-    const idempotency = Idempotency.getInstance(global.idempotencyConfig)
+    const idempotencyConfig = config.apply(input)
+    const idempotency       = Idempotency.getInstance(idempotencyConfig)
 
-    // Config
-    if (input && typeof input === 'object') {
-        config.apply(input)
-        return (req, res, nxt) => nxt()
-    }
-    // Config
-
-    // Middleware
-    return async (body, request, response) =>
+    return async (request, response, next) =>
     {
         const key = idempotency.key(request)
         response.header('idempotency-key', key)
 
         const cached = await idempotency.adapter.get(key)
-        if (cached) return cached
+        if (cached) return response.json(cached)
 
-        const ttl = input || global.idempotencyConfig.ttl
-        await idempotency.adapter.set(key, body, ttl)
-
-        return body
+        next()
     }
-    // Middleware
 }
 
-module.exports = (input) => mung.json(intercept(input))
+/**
+ * Intercep all request to be cached.
+ *
+ * @param {Number} input Cache expiration time to live
+ *
+ * @return {Function}
+ */
+function intercept(input)
+{
+    const options     = global.idempotencyConfig
+    const idempotency = Idempotency.getInstance(options)
+
+    return (body, request, response) =>
+    {
+        (async () =>
+        {
+            const key = idempotency.key(request)
+            response.header('idempotency-key', key)
+
+            const ttl = input || global.idempotencyConfig.ttl
+            await idempotency.adapter.set(key, body, ttl)
+
+            response.body = body
+        })()
+    }
+}
+
+/**
+ * Set idempotency configuration in a endpoint.
+ *
+ * @param {Number} ttl Cache expiration time to live
+ *
+ * @return {Function}
+ */
+exports.set = (ttl) => mung.json(intercept(ttl))

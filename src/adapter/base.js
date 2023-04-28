@@ -7,7 +7,8 @@ module.exports = class
      */
     constructor(config)
     {
-        this.config = config
+        this.config    = config
+        this.connected = false
     }
 
     /**
@@ -34,5 +35,37 @@ module.exports = class
     async set(key, val, ttl)
     {
 
+    }
+
+    /**
+     * Convert a data in JSON, if its necessary.
+     *
+     * @param {String|Object} input
+     *
+     * @return {String}
+     */
+    toJson(input)
+    {
+        try {
+            return JSON.stringify(input)
+        } catch (e) {
+            return input
+        }
+    }
+
+    /**
+     * Convert a JSON data into JavaScript object, if its necessary.
+     *
+     * @param {String} input
+     *
+     * @return {Object|String}
+     */
+    fromJson(input)
+    {
+        try {
+            return JSON.parse(input)
+        } catch (e) {
+            return input
+        }
     }
 }

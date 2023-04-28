@@ -4,13 +4,16 @@ const express     = require('express')
 const app         = express()
 const idempotency = require('./index')
 
-idempotency({
-    adapter   : 'redis',
-    hostname  : 'localhost',
-    defaultTtl: 60,
-});
+const idempotencyConfig = {
+    ttl    : 60,
+    adapter: 'redis',
+    redis  : {
+        hostname: 'localhost',
+    },
+}
 
 app.use(express.json())
+app.use(idempotency.init(idempotencyConfig))
 
 app.get('/hello', (request, response) =>
 {
@@ -20,27 +23,30 @@ app.get('/hello', (request, response) =>
     })
 })
 
-app.get('/hello1', idempotency(1), (request, response) =>
-{
-    response.json({
-        status : 200,
-        message: 'Hello World',
-    })
-})
+// app.get('/hello1', idempotency(10), (request, response) =>
+// {
+//     response.json({
+//         status : 200,
+//         message: 'Hello World',
+//     })
+// })
 
-app.get('/hello2', idempotency(2), (request, response) =>
-{
-    response.json({
-        status : 200,
-        message: 'Hello World',
-    })
-})
+// app.get('/hello2', idempotency(20), (request, response) =>
+// {
+//     response.json({
+//         status : 200,
+//         message: 'Hello World',
+//     })
+// })
 
-app.post('/customer', idempotency(10), function(request, response)
+app.post('/customer', idempotency.set(500), function(request, response)
 {
+    console.log('AKI');
+
     response.json({
-        status : 200,
-        message: 'Sucesso total!',
+        status  : 200,
+        message : 'Sucesso total!!',
+        datetime: new Date(),
     })
 })
 
