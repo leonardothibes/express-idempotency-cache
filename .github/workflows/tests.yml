@@ -3,12 +3,12 @@ name: Run Unit Tests
 on:
     push:
         branches:
-        - 'master'
-        - 'develop'
-        - 'feature/**'
-        - 'release/**'
-        - 'bugfix/**'
-        - 'hotfix/**'
+        - 'disabled-master'
+        - 'disabled-develop'
+        - 'disabled-feature/**'
+        - 'disabled-release/**'
+        - 'disabled-bugfix/**'
+        - 'disabled-hotfix/**'
 
 env:
   TERM: xterm
