@@ -41,8 +41,9 @@ module.exports = class extends Base
     async get(key)
     {
         if (!this.connected) this._connect(this.config.redis)
+        const val = await this.redis.get(key)
 
-        return await this.redis.get(key)
+        return this.fromJson(val)
     }
 
     /**
@@ -58,7 +59,7 @@ module.exports = class extends Base
     {
         if (!this.connected) this._connect(this.config.redis)
 
-        await this.redis.set(key, this.json(val))
+        await this.redis.set(key, this.toJson(val))
         await this.redis.expire(key, Number(ttl))
     }
 }

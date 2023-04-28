@@ -44,10 +44,26 @@ module.exports = class
      *
      * @return {String}
      */
-    json(input)
+    toJson(input)
     {
         try {
             return JSON.stringify(input)
+        } catch (e) {
+            return input
+        }
+    }
+
+    /**
+     * Convert a JSON data into JavaScript object, if its necessary.
+     *
+     * @param {String} input
+     *
+     * @return {Object|String}
+     */
+    fromJson(input)
+    {
+        try {
+            return JSON.parse(input)
         } catch (e) {
             return input
         }
