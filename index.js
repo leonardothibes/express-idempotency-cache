@@ -4,6 +4,30 @@ const mung        = require('express-mung')
 const config      = require('./src/config')
 const Idempotency = require('./src/idempotency')
 
+/**
+ * Init the idempotency interceptor.
+ *
+ * @param {Object} input Config params
+ *
+ * @return {Function}
+ */
+exports.init = (input) =>
+{
+    const idempotencyConfig = config.apply(input)
+    const idempotency       = Idempotency.getInstance(idempotencyConfig)
+
+    return async (request, response, next) =>
+    {
+        const key = idempotency.key(request)
+        response.header('idempotency-key', key)
+
+        const cached = await idempotency.adapter.get(key)
+        if (cached) return response.json(cached)
+
+        next()
+    }
+}
+
 function intercept(input)
 {
     // Cache adapter
@@ -34,34 +58,6 @@ function intercept(input)
 exports.interceptor = (ttl) =>
 {
 
-}
-
-exports.init = (input) =>
-{
-    // Config
-    config.apply(input)
-
-    // Cache adapter
-    const idempotency = Idempotency.getInstance(global.idempotencyConfig)
-
-    // Cache save middleware
-    return async (request, response, next) =>
-    {
-        const key = idempotency.key(request)
-        response.header('idempotency-key', key)
-
-        // (async () =>
-        // {
-            // const key = idempotency.key(request)
-            // response.header('idempotency-key', key)
-
-            const cached = await idempotency.adapter.get(key)
-            if (cached) response.json(cached)
-
-            // next()
-        // })()
-    }
-    // Cache save middleware
 }
 
 function Oldintercept(input)
