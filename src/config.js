@@ -26,4 +26,6 @@ exports.apply = (config) =>
             global.idempotencyConfig[key] = defaultConfig[key]
         }
     }
+
+    return global.idempotencyConfig
 }
