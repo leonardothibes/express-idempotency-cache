@@ -1,6 +1,6 @@
 {
   "name": "express-idempotency-cache",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -14,29 +14,29 @@
   "scriptHelp": {
     "install": {
       "usage": "npm install",
-      "desc": "Instala as dependências externas"
+      "desc": "Install the external dependencies"
     },
     "test": {
-      "desc": "Roda a suite de testes"
+      "desc": "Run unit tests"
     },
     "test:ci": {
-      "desc": "Roda a suite de testes com relatório"
+      "desc": "Run unit tests with coverage report"
     },
     "coverage": {
-      "desc": "Abre no Chrome o relatório de coverage"
+      "desc": "Open the coverage report in Google Chrome"
     },
     "clean": {
-      "desc": "Apaga arquivos de build e testes"
+      "desc": "Clean build and coverage folders"
     },
     "reset": {
-      "desc": "Remove as dependências externas"
+      "desc": "Remove external dependencies"
     },
     "publish": {
       "usage": "npm publish",
-      "desc": "Publica uma nova versão no repositório NPM"
+      "desc": "Release a news version into NPM repository"
     },
     "help": {
-      "desc": "Exibe esta mensagem de HELP"
+      "desc": "Show this HELP message"
     }
   },
   "dependencies": {
