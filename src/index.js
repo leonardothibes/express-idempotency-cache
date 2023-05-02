@@ -1,8 +1,8 @@
 'use strict'
 
 const mung        = require('express-mung')
-const config      = require('./src/config')
-const Idempotency = require('./src/idempotency')
+const config      = require('./config')
+const Idempotency = require('./idempotency')
 
 /**
  * Init the idempotency configuration into Express.
