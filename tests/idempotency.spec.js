@@ -4,9 +4,9 @@ const idempotency = require('../src/idempotency')
 
 describe('idempotency', () =>
 {
-    it('key(request)', () =>
+    it('key(request)', (done) =>
     {
-        const config   = { adapter: 'memory' }
+        const config   = { adapter: 'mock' }
         const instance = idempotency.getInstance(config)
 
         const request = {
@@ -15,7 +15,8 @@ describe('idempotency', () =>
         }
 
         const key = instance.key(request)
-
         expect(key).toEqual('86132018186ec5005e03303957837c95')
+
+        done()
     })
 })
