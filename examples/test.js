@@ -2,7 +2,7 @@
 
 const express     = require('express')
 const app         = express()
-const idempotency = require('./src/index')
+const idempotency = require('../src/index')
 
 const idempotencyConfig = {
     ttl    : 60,
@@ -22,22 +22,6 @@ app.get('/hello', (request, response) =>
         message: 'Hello World',
     })
 })
-
-// app.get('/hello1', idempotency(10), (request, response) =>
-// {
-//     response.json({
-//         status : 200,
-//         message: 'Hello World',
-//     })
-// })
-
-// app.get('/hello2', idempotency(20), (request, response) =>
-// {
-//     response.json({
-//         status : 200,
-//         message: 'Hello World',
-//     })
-// })
 
 app.post('/customer', idempotency.set(500), function(request, response)
 {
