@@ -47,7 +47,7 @@ function intercept(input)
             const key = idempotency.key(request)
             response.header('idempotency-key', key)
 
-            const ttl = input || global.idempotencyConfig.ttl
+            const ttl = Number(input || global.idempotencyConfig.ttl)
             await idempotency.adapter.set(key, body, ttl)
 
             response.body = body
