@@ -3,7 +3,6 @@ name: 🙈 Run Unit Tests
 on:
     push:
         branches:
-            - 'master'
             - 'develop'
             - 'feature/**'
             - 'release/**'
