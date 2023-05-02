@@ -1,7 +1,7 @@
 express-idempotency-cache
 =========================
 
-Idempotency middleware for [Express](https://expressjs.com) to avoid duplicate requests processing of non-idempotency verbs of HTTP. Like POST and DELETE, for example.
+Idempotency middleware for [Express](https://expressjs.com) to avoid duplicate requests processing of non-idempotency verbs of HTTP. Like PUT and POST, for example.
 
 Getting started
 ---------------
@@ -20,37 +20,28 @@ const config = {
     adapter: 'redis' // "redis" or "memory"
     redis  : {
         hostname: 'url-to-your-redis-instalation.yourdomain.com',
-        password: 'password for your redis instalation' // optional
+        port    : 'port for your redis instalation' // optional
     },
     ttl: '86400' // If not specified, default is 24 hours
 };
 
 // ...express initialization
-app.post('*', idempotency(config));
+app.use(express.json()) // JSON body config SHOULD be declared BEFORE
+app.use(idempotency.init(idempotencyConfig))
 ```
 
 Add idempotency config to your routes
 ```javascript
 const idempotency = require('express-idempotency-cache');
 
-app.post('/some-route', idempotency(1440), function(request, response) {
+app.post('/some-route', idempotency.set(500), function(request, response) {
 
     // Do your code here...
-
-    // Save response before send
-    idempotency.save(yourResponseHere)
 
     // Send response
     response.json(yourResponseHere)
 });
 ```
-
-References
-----------
-
- * https://www.npmjs.com/package/express-mung
- * https://www.npmjs.com/package/ttl-cache
- * https://www.npmjs.com/package/async-redis
 
 MIT License
 -----------
