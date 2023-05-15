@@ -1,8 +1,8 @@
 {
   "name": "express-idempotency-cache",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:ci": "npm test -- --coverage",

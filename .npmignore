@@ -1,0 +1,9 @@
+examples
+tests
+tsconfig.json
+tslint.json
+jest.config.js
+.prettierrc
+.vscode
+.github
+.editorconfig
