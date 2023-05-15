@@ -2,7 +2,7 @@
 
 const express     = require('express')
 const app         = express()
-const idempotency = require('../src/index')
+const idempotency = require('../index')
 
 const idempotencyConfig = {
     ttl    : 60,
