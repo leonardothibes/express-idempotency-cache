@@ -25,7 +25,7 @@ class Idempotency
             this.instance = new Idempotency(config)
         }
 
-        if (this.instance && this.instance.adapter !== config.adapter) {
+        if (this.instance && this.instance.adapter.config.adapter !== config.adapter) {
             this.instance = new Idempotency(config)
         }
 
