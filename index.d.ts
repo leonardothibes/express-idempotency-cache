@@ -16,11 +16,11 @@ export interface IdempotencyParamsRedis
  *
  * @param {Object} input Config params
  */
-export const init: (input: IdempotencyParams) => Function
+export const init: (input: IdempotencyParams) => any
 
 /**
  * Set idempotency configuration in a endpoint.
  *
  * @param {Number} ttl Cache expiration time to live
  */
-export const set: (ttl: number) => Function
+export const set: (ttl: number) => any
