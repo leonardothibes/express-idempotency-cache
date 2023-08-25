@@ -26,7 +26,9 @@ const config = {
 };
 
 // ...express initialization
-app.use(express.json()) // JSON body config SHOULD be declared BEFORE
+app.use(express.json())      // Body configuration SHOULD be declared BEFORE
+app.use(express.urlencoded() // Body configuration SHOULD be declared BEFORE
+
 app.use(idempotency.init(idempotencyConfig))
 ```
 
