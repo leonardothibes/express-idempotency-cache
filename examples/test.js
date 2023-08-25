@@ -13,6 +13,7 @@ const idempotencyConfig = {
 }
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(idempotency.init(idempotencyConfig))
 
 app.get('/hello', idempotency.set(), (request, response) =>
