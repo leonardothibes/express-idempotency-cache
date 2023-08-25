@@ -3,6 +3,21 @@
   "version": "0.6.4",
   "description": "",
   "main": "index.js",
+  "homepage": "https://github.com/leonardothibes/express-idempotency-cache#readme",
+  "author": "Leonardo Thibes <leonardothibes@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardothibes/express-idempotency-cache.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leonardothibes/express-idempotency-cache/issues"
+  },
+  "keywords": [
+    "express",
+    "idempotency",
+    "cache"
+  ],
   "scripts": {
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:ci": "npm test -- --coverage",
