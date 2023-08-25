@@ -13,6 +13,7 @@ const idempotencyConfig = {
 }
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(idempotency.init(idempotencyConfig))
 
 app.get('/hello', idempotency.set(), (request, response) =>
@@ -23,7 +24,7 @@ app.get('/hello', idempotency.set(), (request, response) =>
     })
 })
 
-app.post('/customer', idempotency.set(500), function(request, response)
+app.post('/students', idempotency.set(500), function(request, response)
 {
     console.log('AKI');
 

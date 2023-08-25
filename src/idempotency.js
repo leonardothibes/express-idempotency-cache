@@ -33,10 +33,33 @@ class Idempotency
      */
     key(request)
     {
-        const methods = ['POST', 'PUT']
-        const body    = methods.includes(request.method) ? JSON.stringify(request.body) : '{}'
+        const body = this.decode(request)
 
         return md5(`${request.url}:${body}`)
+    }
+
+    /**
+     * Decodes a request body.
+     *
+     * @return {String}
+     */
+    decode(request)
+    {
+        if (request.method === 'GET') return '{}'
+
+        return this.stringify(request.body)
+    }
+
+    /**
+     * Stringify the request body.
+     */
+    stringify(body)
+    {
+        try {
+            return JSON.stringify(body || {})
+        } catch (e) {
+            return '{}'
+        }
     }
 
     _getAdapter()
