@@ -16,13 +16,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(idempotency.init(idempotencyConfig))
 
-app.get('/hello', idempotency.set(), (request, response) =>
-{
-    response.json({
-        status : 200,
-        message: 'Hello World',
-    })
-})
+// app.get('/hello', idempotency.set(), (request, response) =>
+// {
+//     response.json({
+//         status : 200,
+//         message: 'Hello World',
+//     })
+// })
 
 app.post('/students', idempotency.set(500), function(request, response)
 {
