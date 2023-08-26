@@ -1,6 +1,6 @@
 export interface IdempotencyParams
 {
-    adapter: 'redis' | 'memory',
+    adapter: string,
     ttl: number
     redis?: IdempotencyParamsRedis
 }
